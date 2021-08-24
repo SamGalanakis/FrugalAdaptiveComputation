@@ -1,0 +1,24 @@
+{
+    "os": "Windows-10-10.0.22000-SP0",
+    "python": "3.8.0",
+    "heartbeatAt": "2021-08-24T20:15:17.246167",
+    "startedAt": "2021-08-24T20:15:11.711458",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 2070",
+    "gpu_count": 1,
+    "cpu_count": 12,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "c:\\code\\FrugalAdaptiveComputation\\train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": "https://github.com/SamGalanakis/FrugalAdaptiveComputation",
+        "commit": "2c4a1f6614d923a95a4eb36bb43f511e3f95f611"
+    },
+    "email": "samme.galanakis6@gmail.com",
+    "root": "C:/code/FrugalAdaptiveComputation",
+    "host": "SAM-ASUS-LAPTOP",
+    "username": "Sam",
+    "executable": "C:\\Users\\Sam\\anaconda3\\envs\\FrugalAdaptiveComputation\\python.exe"
+}
