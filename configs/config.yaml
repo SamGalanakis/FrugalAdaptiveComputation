@@ -1,23 +1,25 @@
 lr:
   desc: Learning rate
-  value: 1E-4
+  value: 3.0E-4
 n_epoch:
-  value: 100
+  value: 10000
 batch_size:
   desc: Batch size
   value: 128
-input_size:
-  desc: Input size to model / task dependent
-  value: 64
 n_memory:
   desc: Memory dimensions
   value: 10
 budget:
   desc: Max number of iters allowed
   value: 5
-n_samples_parity:
-  desc: Number of samples in dataset
-  value: 100000
+batches_per_epoch:
+  value: 100
 hidden_dims:
   desc: Hidden dims of recurrent unit
   value: [128]
+n_elems:
+  desc: Number of elements in parity vector
+  value: 8 
+n_hidden:
+  desc: n_hidden dimensions of cell
+  value: 128
