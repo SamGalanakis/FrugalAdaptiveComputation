@@ -11,9 +11,8 @@ wandb.init(project='FrugalAdaptiveComputation', entity='samme013',config= config
 config = wandb.config
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-model = FrugalRnn(n_input=  config['n_elems'],nonlin = torch.nn.Tanh(),
-hidden_dims= config['hidden_dims'],
-budget=config['budget'],n_hidden=config['n_hidden']).to(device)
+model = FrugalRnn(n_input=  config['n_elems'],nonlin = torch.nn.Tanh(),n_hidden=config['n_hidden'],
+budget=config['budget']).to(device)
 
 optimizer = torch.optim.Adam(params = model.parameters(),lr=config['lr'])
 
@@ -29,9 +28,9 @@ for epoch in range(0,int(config['n_epoch'])):
         optimizer.zero_grad()
         x,y = [a.to(device) for a in batch]
         probs,n_iters = model(x)
-        batch_accuracy = (probs.round() == y.float()).float().mean().item()
+        batch_accuracy = (probs.sigmoid().round() == y.float()).float().mean().item()
         average_n_iter = n_iters.mean().item()
-        loss = frugal_loss(probs,n_iters,y,budget=config['budget']).mean()
+        loss = frugal_loss(probs,n_iters,y,budget=config['budget'],balance=config['balance']).mean()
         loss.backward()
         optimizer.step()
         accuracy_tracker.update(batch_accuracy)

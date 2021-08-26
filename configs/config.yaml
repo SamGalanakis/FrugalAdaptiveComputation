@@ -19,7 +19,10 @@ hidden_dims:
   value: 128
 n_elems:
   desc: Number of elements in parity vector
-  value: 64
+  value: 8
 n_hidden:
   desc: n_hidden dimensions of cell
-  value: 128
+  value: 64
+balance:
+  desc: Balance term in [0,1] for target loss vs budget penalization
+  value: 1.

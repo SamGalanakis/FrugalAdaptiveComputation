@@ -6,20 +6,20 @@ from .nets import MLP
 
 
 class FrugalRnn(nn.Module):
-    def __init__(self,n_input,n_hidden,nonlin,hidden_dims,budget):
+    def __init__(self,n_input,nonlin,n_hidden,budget):
         super().__init__()
+      
         self.n_hidden = n_hidden
-  
         self.nonlin = nonlin
         self.budget = budget
         self.n_input = n_input
 
   
-        self.iterator = torch.nn.GRUCell(n_input,hidden_dims)
+        self.iterator = torch.nn.GRUCell(n_input,n_hidden)
 
-        self.stopper = torch.nn.Linear(hidden_dims,1)
+        self.stopper = torch.nn.Linear(n_hidden,1)
 
-        self.predictor = torch.nn.Linear(hidden_dims,1)
+        self.predictor = torch.nn.Linear(n_hidden,1)
 
 
    
@@ -36,6 +36,7 @@ class FrugalRnn(nn.Module):
         final_probs = torch.zeros((batch_size,),dtype=dtype,device=device)
         for index in range(self.budget):
             if halted_mask.all():
+                #print(f'All halted')
                 break
             # Increment those not halted
             n_iters[~halted_mask]+= 1
