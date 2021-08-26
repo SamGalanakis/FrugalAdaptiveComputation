@@ -14,8 +14,14 @@ class FrugalRnn(nn.Module):
         self.budget = budget
         self.n_input = n_input
 
+  
+        self.iterator = torch.nn.GRUCell(n_input,hidden_dims)
 
-        self.iterator = MLP(n_hidden+n_input,hidden_dims,n_hidden+2,nonlin)
+        self.stopper = torch.nn.Linear(hidden_dims,1)
+
+        self.predictor = torch.nn.Linear(hidden_dims,1)
+
+
    
 
 
@@ -34,16 +40,16 @@ class FrugalRnn(nn.Module):
             # Increment those not halted
             n_iters[~halted_mask]+= 1
             
-            iterator_in = torch.cat((x[~halted_mask,...],hidden[~halted_mask,...]),dim=-1)
-            iterator_out = self.iterator(iterator_in)
             
-            probs,halt_val,hidden_out = iterator_out.split([1,1,self.n_hidden],dim=-1)
-            hidden[~halted_mask,...] = hidden_out
+            new_hidden = self.iterator(x[~halted_mask,...],hidden[~halted_mask,...])
             
 
-            halt_outs = torch.sigmoid(halt_val).round().bool().squeeze()
+            hidden[~halted_mask,...] = new_hidden
             
+            stop_vals = self.stopper(new_hidden)
+            halt_outs = torch.sigmoid(stop_vals).round().bool().squeeze()
             
+            probs = self.predictor(new_hidden)
             
             if (index == (self.budget-1)):
                 # Set probs for all if at last iter
@@ -51,6 +57,6 @@ class FrugalRnn(nn.Module):
             else:
                 final_probs[~halted_mask] = final_probs[~halted_mask].where(~halt_outs,probs.squeeze() )
             halted_mask[~halted_mask] = halt_outs
-        final_probs = final_probs.sigmoid()
+        
         return final_probs,n_iters
 

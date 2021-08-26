@@ -16,10 +16,10 @@ batches_per_epoch:
   value: 100
 hidden_dims:
   desc: Hidden dims of recurrent unit
-  value: [128]
+  value: 128
 n_elems:
   desc: Number of elements in parity vector
-  value: 8 
+  value: 64
 n_hidden:
   desc: n_hidden dimensions of cell
   value: 128

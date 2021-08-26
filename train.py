@@ -16,7 +16,7 @@ hidden_dims= config['hidden_dims'],
 budget=config['budget'],n_hidden=config['n_hidden']).to(device)
 
 optimizer = torch.optim.Adam(params = model.parameters(),lr=config['lr'])
-loss_func = torch.nn.BCEWithLogitsLoss()
+
 
 
 for epoch in range(0,int(config['n_epoch'])):
